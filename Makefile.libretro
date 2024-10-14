@@ -425,6 +425,7 @@ else ifeq ($(platform), libnx)
 else ifeq ($(platform), emscripten)
    TARGET := $(TARGET_NAME)_libretro_$(platform).bc
    ENDIANNESS_DEFINES := -DLSB_FIRST -DALIGN_LONG -DBYTE_ORDER=LITTLE_ENDIAN -DHAVE_ZLIB
+   LDFLAGS += -s FETCH=1
    STATIC_LINKING = 1
 
 # RS90
@@ -879,6 +880,9 @@ all: $(TARGET)
 	$(CXX) $(OBJOUT)$@ -c $< $(CXXFLAGS) $(LIBRETRO_CFLAGS)
 
 %.o: %.c
+	$(CC) $(OBJOUT)$@ -c $< $(CFLAGS) $(LIBRETRO_CFLAGS)
+
+core/cart_hw/kinetoscope_adapter.o: core/cart_hw/kinetoscope_adapter.c core/kinetoscope/emulator-patches/kinetoscope.c core/kinetoscope/emulator-patches/fetch.c
 	$(CC) $(OBJOUT)$@ -c $< $(CFLAGS) $(LIBRETRO_CFLAGS)
 
 $(TARGET): $(OBJECTS)

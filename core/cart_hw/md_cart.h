@@ -62,9 +62,10 @@
 #define HW_ADDON_NONE    0x03
 
 /* Special hardware (0x01 & 0x02 reserved for Master System 3-D glasses & Terebi Oekaki) */
-#define HW_J_CART   0x04
-#define HW_LOCK_ON  0x08
-#define HW_MEGASD   0x10
+#define HW_J_CART       0x04
+#define HW_LOCK_ON      0x08
+#define HW_MEGASD       0x10
+#define HW_KINETOSCOPE  0x20
 
 /* Cartridge extra hardware */
 typedef struct

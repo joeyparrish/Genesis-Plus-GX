@@ -45,6 +45,7 @@
 #include "eeprom_i2c.h"
 #include "eeprom_spi.h"
 #include "megasd.h"
+#include "kinetoscope_adapter.h"
 
 /* Cart database entry */
 typedef struct
@@ -549,6 +550,13 @@ void md_cart_init(void)
     cart.special |= HW_MEGASD;
     cart.hw.time_w = megasd_rom_mapper_w;
   }
+  else if (strstr(rominfo.consoletype,"SEGA KINETOSCOPE"))
+  {
+    /* Kinetoscope cartridge hardware */
+    cart.special |= HW_KINETOSCOPE;
+    cart.hw.time_w = kinetoscope_adapter_write;
+    cart.hw.time_r = kinetoscope_adapter_read;
+  }
   else if (strstr(rominfo.domestic,"SUPER STREET FIGHTER2"))
   {
     /* SSF2 mapper */
@@ -846,6 +854,12 @@ void md_cart_reset(int hard_reset)
   if (cart.special & HW_MEGASD)
   {
     megasd_reset();
+  }
+
+  /* MegaSD hardware */
+  if (cart.special & HW_KINETOSCOPE)
+  {
+    kinetoscope_adapter_reset();
   }
 
   /* SVP chip */
